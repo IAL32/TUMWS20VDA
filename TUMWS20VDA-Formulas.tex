@@ -1,0 +1,41 @@
+\documentclass[9pt]{extarticle}
+\usepackage[utf8]{inputenc}
+% column separation
+\usepackage{multicol}
+\usepackage[document]{ragged2e}
+\usepackage{graphicx}
+\setlength{\columnsep}{1cm}
+\usepackage{tabularx}
+\usepackage{cancel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+
+\usepackage{filecontents}
+\pgfplotsset{compat=1.16}
+\usetikzlibrary{calc}
+
+\allowdisplaybreaks %% Fix for mega spaces
+
+% page margins
+\usepackage[a4paper, total={20cm, 25cm}]{geometry}
+
+\title{Visual Data Analytics - Formulas}
+\author{Adrian Castro}
+\date{February 2021}
+
+\begin{document}
+
+\maketitle
+
+\begin{multicols}{3}
+
+%%
+\input{0_Introduction/Introduction.tex}
+\input{1_Interpolation/Interpolation.tex}
+
+\end{multicols}
+
+\end{document}
