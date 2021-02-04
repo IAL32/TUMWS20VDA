@@ -1,0 +1,45 @@
+\tikzset{
+  cuboid/.pic={
+    \tikzset{%
+      every edge quotes/.append style={midway, auto},
+      /cuboid/.cd,
+      #1
+    }
+    \coordinate (o) at (0, 0, 0);
+    \coordinate (a) at (-\cubescale*\cubex,0,0);
+    \coordinate (b) at (0,-\cubescale*\cubey,0);
+    \coordinate (b1) at (0,0,-\cubescale*\cubez);
+    \coordinate (c) at (b1) ++(\cubescale*\cubex,0,0);
+    \coordinate (d) at (0,0,-\cubescale*\cubez);
+    \coordinate (e) at (0,-\cubescale*\cubey,0);
+    \coordinate (f) at (0,0,-\cubescale*\cubez);
+
+    \draw [every edge/.append style={pic actions, densely dashed, opacity=.5}, pic actions]
+    (o) -- ++(a) -- ++(b) edge coordinate [pos=1] (g) ++(b1) -- ++(\cubescale*\cubex,0,0) coordinate (c) -- cycle
+    (o) -- ++(d) -- ++(e) edge (g) -- (c) -- cycle
+    (o) -- ++(a) -- ++(f) edge (g) -- (d) -- cycle;
+    ;
+    \draw[fill=black!20, draw=black, thick] (o) circle (2pt);
+    \draw[fill=black!20, draw=black, thick] (a) circle (2pt);
+    \draw[fill=black!20, draw=black, thick] (b) circle (2pt);
+    \draw[fill=black!20, draw=black, thick] (o) ++(a) ++(b) circle (2pt);
+    \draw[fill=black!20, draw=black, thick] (g) ++(\cubescale*\cubex,0,0) circle (2pt);
+    \draw[fill=black!20, draw=black, thick] (o) ++(d) circle (2pt);
+    % \draw[fill=black!20, draw=black, thick] (o) ++(d) ++(e) circle (2pt);
+    \draw[fill=black!20, draw=black, thick] (o) ++(a) ++(f) circle (2pt);
+    \draw[fill=black!20, draw=black, thick] (g) circle (2pt);
+
+  },
+  /cuboid/.search also={/tikz},
+  /cuboid/.cd,
+  width/.store in=\cubex,
+  height/.store in=\cubey,
+  depth/.store in=\cubez,
+  units/.store in=\cubeunits,
+  scale/.store in=\cubescale,
+  width=10,
+  height=10,
+  depth=10,
+  units=cm,
+  scale=.1,
+}

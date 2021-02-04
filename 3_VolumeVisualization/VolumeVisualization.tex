@@ -1,0 +1,53 @@
+\input{3_VolumeVisualization/Cuboid.tikzset.tex}
+\section{Volume Visualization}
+$\bullet$ \textbf{Indirect} Volume Rendering \\
+$\bullet$ \textbf{Direct} Volume Rendering \\
+$\bullet$ \textbf{Voxel}: point sample in 3D \\
+$\bullet$ \textbf{Transfer Function}: maps data values to color \& opacity
+
+\begin{center}
+    \begin{tikzpicture}
+        \pic {cuboid={width=15, height=15, depth=15}};
+    \end{tikzpicture}
+\end{center}
+
+\subsection{Direct Volume Rendering}
+Each \textbf{voxel} emits light of the color assigned to it, and absorbs light according to its opacity.
+
+\subsection{Light Emission and Attenuation}
+Volume rendering integral:
+$$C(s) = \int_{s_0}^{s} C(s') \cdot e^{-\int_{s'}^s \alpha(t) \,dt} \,ds'$$
+
+We are calculating the accumulated color until $C(s')$, with the absorption coefficient between the last color $s'$ and the point of view $s$.
+
+\subsection{Ray Casting - Compositing}
+\textbf{Front-to-back Strategy}
+
+\begin{align*}
+    C_{in} &= (0,0,0), \alpha_{in} = 0                         \\
+    C_{out} &= C_{in} + (a - \alpha_{in}) \cdot \alpha \cdot C \\
+    \alpha_{out} &= \alpha_{in} + (a - \alpha_{in}) \cdot \alpha    \\
+\end{align*}
+
+\subsection{Direct Volume Rendering: Phong Shading}
+We have to evaluate Phong's illumination model based on:
+$\bullet$ \textbf{position} of current sample and light source \\
+$\bullet$ sample's \textnormal{color} emission assigned by transfer function \\
+$\bullet$ sample's \textbf{normal/gradient} (central difference)
+
+\subsection{Gradient Estimation}
+We can estimate the gradient using finite differencing. However, this technique is not feasible with large amounts of data.
+
+\begin{align*}
+    & \nabla f(x, y, z) \simeq \\
+    & \simeq \frac{1}{2h} \begin{pmatrix}
+        f(x + h, y, z) - f(x - h, y, z) \\
+        f(x, y + h, z) - f(x, y - h, z) \\
+        f(x, y, z + h) - f(x, y, z - h) \\
+    \end{pmatrix}
+\end{align*}
+
+\subsection{Compositing Schemes}
+$\bullet$ \textbf{Surface Rendering/First-Hit}: stop ray traversal if an ISOSurface is hit \\
+$\bullet$ \textbf{Average}: simply accumulate colors, but ignore opacity \\
+$\bullet$ \textbf{Maximum}: take maximum color along axis and display it
