@@ -1,0 +1,153 @@
+\section{Flow Visualization}
+$\bullet$ Motion of fluids (gases, liquids) \\
+$\bullet$ Geometric boundaries \\
+$\bullet$ Conservation of mass, energy and momentum \\
+$\bullet$ Velocity/Flow field $v(x, t)$
+
+\subsection{Vector Field Visualization}
+$\bullet$ Vector data representing \textbf{Direction} and \textbf{Magnitude} \\
+$\bullet$ \textbf{Steady} (time-indipendent) flow:
+$$v(x): \mathbb{R}^n \rightarrow \mathbb{R}^n$$
+$\bullet$ \textbf{Unsteady} (time dependent) flow:
+$$v(x, t): \mathbb{R}^n \times \mathbb{R}^1 \rightarrow \mathbb{R}^n$$
+
+
+\subsection{Vector and Scalar Functions}
+Scalar function:
+$$\rho(x, t)$$
+The gradient points to the direction of maximum change of $\rho (x, t)$:
+$$\nabla \rho(x, t) = \Scale[1.3]{\begin{pmatrix}
+            \frac{\delta \rho(x, t)}{\delta x} \\
+            \frac{\delta \rho(x, t)}{\delta y} \\
+            \frac{\delta \rho(x, t)}{\delta z} \\
+        \end{pmatrix}}$$
+
+Jacobian matrix applied to vector field $v(x, t)$:
+$$J = \nabla v(x, t) = \Scale[1.2]{\begin{pmatrix}
+            \tcbhighmath[myinner, colback=orange!50!white]{\frac{\delta v_x}{\delta x}} & \tcbhighmath[myinner, colback=blue!20!white]{\frac{\delta v_x}{\delta y}}   & \tcbhighmath[myinner, colback=violet!20!white]{\frac{\delta v_x}{\delta z}} \\
+            %
+            \tcbhighmath[myinner, colback=blue!20!white]{\frac{\delta v_y}{\delta x}}   & \tcbhighmath[myinner, colback=orange!50!white]{\frac{\delta v_y}{\delta y}} & \tcbhighmath[myinner, colback=green!20!white]{\frac{\delta v_y}{\delta z}}  \\
+            %
+            \tcbhighmath[myinner, colback=violet!20!white]{\frac{\delta v_z}{\delta x}} & \tcbhighmath[myinner, colback=green!20!white]{\frac{\delta v_z}{\delta y}}  & \tcbhighmath[myinner, colback=orange!50!white]{\frac{\delta v_z}{\delta z}} \\
+        \end{pmatrix}}$$
+
+\textbf{Divergence}: Diagonal of Jacobian, describes flow into/out of a region:
+$$div\ v(x, t) = \tcbhighmath[myinner, colback=orange!50!white]{\frac{\delta v_x}{\delta x} + \frac{\delta v_y}{\delta y} + \frac{\delta v_z}{\delta z}}$$
+\begin{align*}
+    div\ v(x_0) > 0 & : v\text{ has \textbf{source} in } x_0     \\
+    div\ v(x_0) < 0 & : v\text{ has \textbf{sink} in } x_0       \\
+    div\ v(x_0) = 0 & : v\text{ is \textbf{source-free} in } x_0 \\
+\end{align*}
+
+\textbf{Curl/vorticity}: tells how fast the flow is rotating, and the axis around which it is rotating.
+$$curl\ v(x, t) = \nabla v(x, t) = \begin{pmatrix}
+        \tcbhighmath[myinner, colback=green!20!white]{\frac{\delta v_z}{\delta y} - \frac{\delta v_y}{\delta z}}  \\
+        \tcbhighmath[myinner, colback=violet!20!white]{\frac{\delta v_x}{\delta z} - \frac{\delta v_z}{\delta x}} \\
+        \tcbhighmath[myinner, colback=blue!20!white]{\frac{\delta v_y}{\delta x} - \frac{\delta v_x}{\delta y}}
+    \end{pmatrix}$$
+
+\subsection{Computing Characteristic Lines}
+Characteristic lines are \textbf{tangential} to the flow.
+
+$$\frac{\delta x(t)}{\delta t} = v(x(t), t)$$
+
+$\bullet$ do not intersect \\
+$\bullet$ they are the solutions to the initial value problem
+
+\subsection{Euler Method}
+$\bullet$ First order method \\
+$\bullet$ higher accuracy with smaller step size ($\Delta t$)
+
+$$x(t + \Delta t) \approx  x(t) + \Delta t \cdot v(x(t), t)$$
+
+\subsection{Midpoint Method}
+$\bullet$ Better, faster than Euler method
+
+\begin{align*}
+    \Delta x        & = \Delta t \cdot v(x, t)                            \\
+    v_{mid}         & = v(x + \frac{\Delta x}{2}, t + \frac{\Delta t}{2}) \\
+    x(t + \Delta t) & = x(t) + \Delta t \cdot v_{mid}
+\end{align*}
+
+\subsection{Runge-Kutta 4th Order}
+$\bullet$ The most accurate
+
+\begin{align*}
+    k_1             & = \Delta t \cdot v(x, t)                                            \\
+    k_2             & = \Delta t \cdot v(x + \frac{k_1}{2}, t + \frac{\Delta t}{2})       \\
+    k_3             & = \Delta t \cdot v(x + \frac{k_2}{2}, t + \frac{\Delta t}{2})       \\
+    k_4             & = \Delta t \cdot v(x + k_3, t + \frac{\Delta t}{2})                 \\
+    x(t + \Delta t) & = k + \frac{k_1}{6} + \frac{k_2}{3} + \frac{k_3}{3} + \frac{k_4}{6}
+\end{align*}
+
+\subsection{Vector Field Topology}
+$\bullet$ We want ot draw along the most important lines \\
+$\bullet$ Draw topological skeleton of flow \\
+
+\subsection{Critical Points}
+$\bullet$ Singularities in vector fields such that: \\
+$$v(x^*) = 0$$
+$\bullet$ Points where magnitude of veectors goes to zero and direction of vectors is undefined \\
+
+\textbf{To find critical points}: points where:
+$$v(x^*) = 0$$
+
+\textbf{Classification}
+First, we build the Jacobian matrix for $v(x^*)$
+
+$$J = \Scale[1.3]{\begin{pmatrix}
+            \frac{\delta v_x}{\delta x} & \frac{\delta v_x}{\delta y} \\
+            \frac{\delta v_y}{\delta x} & \frac{\delta v_y}{\delta y} \\
+        \end{pmatrix}}$$
+
+Then, for each $x^*$ calculate the \textbf{eigenvalues} $\lambda_1, \lambda_2$ of $J$. \\
+To find the eigen values:
+
+$$det(J - \lambda I) = det\Scale[1.3]{\begin{pmatrix}
+            \frac{\delta v_x}{\delta x} - \lambda & \frac{\delta v_x}{\delta y}           \\
+            \frac{\delta v_y}{\delta x}           & \frac{\delta v_y}{\delta y} - \lambda \\
+        \end{pmatrix}}$$
+
+\begin{align*}
+     & \text{\textbf{Circulating Source}}                                        \\
+     & Im(\lambda_1, \lambda_2) \neq 0 \text{ and } Re(\lambda_1, \lambda_2) > 0 \\
+     & \text{\textbf{Non-Circulating Source}}                                    \\
+     & Im(\lambda_1, \lambda_2) = 0 \text{ and } Re(\lambda_1, \lambda_2) > 0    \\
+     & \text{\textbf{Center}}                                                    \\
+     & Im(\lambda_1, \lambda_2) \neq 0 \text{ and } Re(\lambda_1, \lambda_2) = 0 \\
+     & \text{\textbf{Circulating Sink}}                                          \\
+     & Im(\lambda_1, \lambda_2) \neq 0 \text{ and } Re(\lambda_1, \lambda_2) < 0 \\
+     & \text{\textbf{Non-Circulating Sink}}                                      \\
+     & Im(\lambda_1, \lambda_2) = 0 \text{ and } Re(\lambda_1, \lambda_2) < 0    \\
+     & \text{\textbf{Saddle Point}}                                              \\
+     & Im(\lambda_1, \lambda_2) = 0 \text{ and } \lambda_1 \cdot \lambda_2 < 0   \\
+\end{align*}
+
+\subsection{Dense Texture-Based Flow Visualization}
+$\bullet$ Better information coverage \\
+$\bullet$ Critical point detection and classification \\
+
+\subsection{Line-Integral Convolution}
+$\bullet$ Global visualization technique \\
+$\bullet$ Starts with random noise (white noise) \\
+$\bullet$ \textit{Smear out} the texture along trajectories of vector field \\
+$\bullet$  Results in \textbf{low correlation} between \textbf{neighbouring lines} and \textbf{high correlation} along \textbf{flow direction} \\
+
+Steps: \\
+$\bullet$ Vector Field $\rightarrow$ (integration) Stream Line \\
+$\bullet$ Stream Line $\rightarrow$ (convolution) Noise Texture \\
+$\bullet$ Noise Texture $\rightarrow$ (result) Output Image \\
+
+\subsection{Filtering By Convolution}
+$\bullet$ Sliding a function $g(x)$ along a function $f(x)$:
+
+$$s(x') = [f * g](x') = \int_{-\infty}^{\infty} f(x) g(x' - x) \,dx$$
+
+$\bullet$ Function $f$ is averaged with a weight function $g$ \\
+$\bullet$ $(x' - x)$ centers $g$ around $x'$ \\
+
+$\bullet$ We use the single stream lines that pass through a single pixel to smear out the noise \\
+$\bullet$ $\varPhi_0 (u)$ is the stream line containing the point $(x_0, y_0)$ \\
+$\bullet$ $T(x, y)$ is the randomly generated noise texture \\
+$\bullet$ Compute the intensity at $(x_0, y_0)$ as: \\
+$$I(x_0, y_0) = \int_{-L}^{L} k(u) \cdot T(\varPhi(u)) \,du$$

@@ -11,6 +11,9 @@
 \usepackage{amsfonts}
 \usepackage{siunitx}
 \usepackage{pgfplots}
+\usepackage[skins,theorems]{tcolorbox}
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{\ensuremath{#2}}}%
+\tcbset{myinner/.style={no shadow,shrink tight,boxrule=0pt,frame style={opacity=0.25},interior style={opacity=0.5}}}
 \usepgfplotslibrary{fillbetween}
 
 \usepackage{filecontents}
@@ -37,6 +40,7 @@
 \input{1_Interpolation/Interpolation.tex}
 \input{2_Phong/Phong.tex}
 \input{3_VolumeVisualization/VolumeVisualization.tex}
+\input{4_FlowVisualization/FlowVisualization.tex}
 
 \end{multicols}
 

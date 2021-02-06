@@ -39,8 +39,8 @@ $\bullet$ sample's \textbf{normal/gradient} (central difference)
 We can estimate the gradient using finite differencing. However, this technique is not feasible with large amounts of data.
 
 \begin{align*}
-    & \nabla f(x, y, z) \simeq \\
-    & \simeq \frac{1}{2h} \begin{pmatrix}
+    & \nabla f(x, y, z) \approx \\
+    & \approx \frac{1}{2h} \begin{pmatrix}
         f(x + h, y, z) - f(x - h, y, z) \\
         f(x, y + h, z) - f(x, y - h, z) \\
         f(x, y, z + h) - f(x, y, z - h) \\
