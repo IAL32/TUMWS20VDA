@@ -1,8 +1,8 @@
 \section{Phong Illumination Model}
-
-\textbf{Ambient Light}: background light, constant everywhere \\
-\textbf{Diffuse Reflector}: reflects equally into all directions \\
-\textbf{Specular Reflector}: reflects mostly into the mirror direction
+Components: \\
+$\bullet$ \textbf{Ambient Light}: background light, constant everywhere \\
+$\bullet$ \textbf{Diffuse Reflector}: reflects equally into all directions \\
+$\bullet$ \textbf{Specular Reflector}: reflects mostly into the mirror direction
 
 \subsection{Lighting}
 
@@ -46,7 +46,8 @@ $$\vert \vec{v} \vert = \sqrt{(v_0)^2 + \cdots + (v_n)^2}$$
 \subsection{Specular Reflection}
 
 $$C = K_s C_p O_d \cdot \cos^n{\varphi}$$
-$$\cos^n{\varphi} = \frac{\vec{r}\cdot \vec{v}}{\vert \vec{r} \vert \cdot \vert \vec{v} \vert}$$
+$$\cos{\varphi} = \frac{\vec{r}\cdot \vec{v}}{\vert \vec{r} \vert \cdot \vert \vec{v} \vert}$$
+$$\vec{r} = 2 \cdot (\frac{\vec{n} \cdot \vec{l}}{\vert \vec{n} \vert \cdot \vert \vec{l} \vert}) \cdot \frac{\vec{n}}{\vert \vec{n} \vert} - \frac{\vec{l}}{\vert \vec{l} \vert}$$
 
 \begin{align*}
     K_s             & : \text{specular reflection coefficient }\in [0, 1] \\
@@ -78,3 +79,5 @@ $$\cos^n{\varphi} = \frac{\vec{r}\cdot \vec{v}}{\vert \vec{r} \vert \cdot \vert 
         \pic [draw, -, angle radius=11mm, angle eccentricity=1.2, "$\varphi$"] {angle = v--O--r};
     \end{tikzpicture}
 \end{center}
+
+\textbf{Perfect Mirror:} shininess factor $n$ has to be very large, going to infinity. 
