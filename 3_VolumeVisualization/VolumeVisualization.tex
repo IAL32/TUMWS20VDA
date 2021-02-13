@@ -1,7 +1,7 @@
 \input{3_VolumeVisualization/Cuboid.tikzset.tex}
 \section{Volume Visualization}
-$\bullet$ \textbf{Indirect} Volume Rendering \\
-$\bullet$ \textbf{Direct} Volume Rendering \\
+$\bullet$ \textbf{Indirect} Volume Rendering (Marching Cubes, data is reduced to intermediate representation, which can then be rendered) \\
+$\bullet$ \textbf{Direct} Volume Rendering (Ray Casting, data is considered semi-transparent with physical properties, and directly rendered) \\
 $\bullet$ \textbf{Voxel}: point sample in 3D \\
 $\bullet$ \textbf{Transfer Function}: maps data values to color \& opacity
 
@@ -10,6 +10,11 @@ $\bullet$ \textbf{Transfer Function}: maps data values to color \& opacity
         \pic {cuboid={width=15, height=15, depth=15}};
     \end{tikzpicture}
 \end{center}
+
+\subsection{Transfer Function}
+Associates distinct materials (value range) to distinct properties (color and opacity). Maps a different color to each scalar value.
+
+$$T: \texttt{scalar value} \rightarrow color + \alpha$$
 
 \subsection{Direct Volume Rendering}
 Each \textbf{voxel} emits light of the color assigned to it, and absorbs light according to its opacity.
@@ -28,6 +33,23 @@ We are calculating the accumulated color until $C(s')$, with the absorption coef
     C_{out} &= C_{in} + (a - \alpha_{in}) \cdot \alpha \cdot C \\
     \alpha_{out} &= \alpha_{in} + (a - \alpha_{in}) \cdot \alpha    \\
 \end{align*}
+
+\input{3_VolumeVisualization/Eye.command.tex}
+
+\begin{center}
+    \begin{tikzpicture}
+        \coordinate (1) at (0, 1);
+        \coordinate (2) at (0, 2.3);
+        \coordinate (3) at (0, 2.8);
+        \eye{0.5}{0}{0}{90};
+        \draw[->] (1) -- (2);
+        \node at (1, 0.7) {$C_{in}, \alpha_{in}$};
+        \node at (3) {$C_{out}, \alpha_{out}$};
+
+        \draw[pattern=north west lines, pattern color=blue] (-1, 1.8) rectangle (1, 1.5);
+        \node at (1.5, 1.6) {$C, \alpha$};
+    \end{tikzpicture}
+\end{center}
 
 \subsection{Direct Volume Rendering: Phong Shading}
 We have to evaluate Phong's illumination model based on: \\

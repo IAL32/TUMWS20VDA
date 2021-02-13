@@ -370,3 +370,148 @@ $$f(\alpha, \beta) = A\alpha + B\beta + C\alpha\beta + D$$
     \beta_0  & = -A/C                                                                                                                                                                                                                                                         \\
     \gamma   & = C
 \end{align*}
+
+\subsection{Marching Squares}
+Algorithm used to compute isolines on a 2D surface, given a grid of values. \\
+\textbf{Step 1:} mark all the data with:
+\begin{align*}
+    \text{value} >= \text{isovalue: } & + \\
+    \text{value} < \text{isovalue: }  & -
+\end{align*}
+\textbf{Step 2:} 16 different combinations, but we are interested in 4 base cases:
+\begin{center}
+    \begin{tikzpicture}[thick,scale=0.3, every node/.style={scale=0.8}]
+        \coordinate (1) at (0,0);
+        \coordinate (2) at (4,0);
+        \coordinate (3) at (4,4);
+        \coordinate (4) at (0,4);
+        \fill (1) circle (1pt) node [left] {$+$};
+        \fill (2) circle (1pt) node [right] {$+$};
+        \fill (3) circle (1pt) node [above] {$+$};
+        \fill (4) circle (1pt) node [above] {$+$};
+        \coordinate (5) at ($(1)!.4!(2)$);
+        % \fill (5) circle (1pt) node [below] {$\alpha_0$};
+        \coordinate (6) at ($(2)!.4!(3)$);
+        % \fill (6) circle (1pt) node [right] {$\beta_0$};
+
+        \coordinate (7) at ($(3)!.6!(4)$);
+
+        \coordinate (8) at ($(1)!.4!(4)$);
+        \coordinate (9) at ($(1)!.4!(3)$);
+        % \fill ($(1)!.4!(3)$) circle (1pt) node [above right] {$(\alpha_0, \beta_0)$};
+
+        \draw (1)--(2)--(3)--(4)-- cycle;
+        % \draw (5)--(7);
+        % \draw (6)--(8);
+    \end{tikzpicture}
+    \qquad %
+    \begin{tikzpicture}[thick,scale=0.3, every node/.style={scale=0.8}]
+        \coordinate (1) at (0,0);
+        \coordinate (2) at (4,0);
+        \coordinate (3) at (4,4);
+        \coordinate (4) at (0,4);
+        \fill (1) circle (1pt) node [left] {$+$};
+        \fill (2) circle (1pt) node [right] {$+$};
+        \fill (3) circle (1pt) node [above] {$-$};
+        \fill (4) circle (1pt) node [above] {$+$};
+        \coordinate (5) at ($(1)!.4!(2)$);
+        % \fill (5) circle (1pt) node [below] {$\alpha_0$};
+        \coordinate (6) at ($(2)!.4!(3)$);
+        % \fill (6) circle (1pt) node [right] {$\beta_0$};
+
+        \coordinate (7) at ($(3)!.6!(4)$);
+
+        \coordinate (8) at ($(1)!.4!(4)$);
+        \coordinate (9) at ($(1)!.4!(3)$);
+        % \fill ($(1)!.4!(3)$) circle (1pt) node [above right] {$(\alpha_0, \beta_0)$};
+
+        \draw (1)--(2)--(3)--(4)-- cycle;
+        % \draw (5)--(7);
+        \draw (6)--(7);
+    \end{tikzpicture}
+
+\end{center}
+
+\begin{center}
+    \begin{tikzpicture}[thick,scale=0.3, every node/.style={scale=0.8}]
+        \coordinate (1) at (0,0);
+        \coordinate (2) at (4,0);
+        \coordinate (3) at (4,4);
+        \coordinate (4) at (0,4);
+        \fill (1) circle (1pt) node [left] {$+$};
+        \fill (2) circle (1pt) node [right] {$-$};
+        \fill (3) circle (1pt) node [above] {$-$};
+        \fill (4) circle (1pt) node [above] {$+$};
+        \coordinate (5) at ($(1)!.7!(2)$);
+        \coordinate (6) at ($(2)!.4!(3)$);
+
+        \coordinate (7) at ($(3)!.6!(4)$);
+
+        \coordinate (8) at ($(1)!.4!(4)$);
+        \coordinate (9) at ($(1)!.4!(3)$);
+        % \fill ($(1)!.4!(3)$) circle (1pt) node [above right] {$(\alpha_0, \beta_0)$};
+
+        \draw (1)--(2)--(3)--(4)-- cycle;
+        \draw (5)--(7);
+        % \draw (6)--(8);
+    \end{tikzpicture}
+\end{center}
+
+In the last case, we have ambiguity, which can be resolved in two ways: \\
+$\bullet$ midpoint decider:
+$$f_{center} = \frac{1}{4} (f_{ij} + f_{i + 1, j} + f_{i, j + 1} + f_{i + 1, j + 1})$$
+$\bullet$ if midpoint decider is right in the middle, hence the ambiguity is still there, we can use the \textbf{asymptotic decider} previously defined as:
+
+$$f(\alpha, \beta) = \gamma (\alpha - \alpha_0)(\beta - \beta_0) + \delta$$
+
+\begin{center}
+    \begin{tikzpicture}[thick,scale=0.3, every node/.style={scale=0.8}]
+        \coordinate (1) at (0,0);
+        \coordinate (2) at (4,0);
+        \coordinate (3) at (4,4);
+        \coordinate (4) at (0,4);
+        \fill (1) circle (1pt) node [left] {$-$};
+        \fill (2) circle (1pt) node [right] {$+$};
+        \fill (3) circle (1pt) node [above] {$-$};
+        \fill (4) circle (1pt) node [above] {$+$};
+        \coordinate (5) at ($(1)!.4!(2)$);
+        \coordinate (6) at ($(2)!.4!(3)$);
+
+        \coordinate (7) at ($(3)!.6!(4)$);
+
+        \coordinate (8) at ($(1)!.4!(4)$);
+        \coordinate (9) at ($(1)!.4!(3)$);
+        \fill ($(1)!.4!(3)$) circle (3pt) node [above right] {$f$};
+
+        \draw (1)--(2)--(3)--(4)-- cycle;
+        \draw (6)--(7);
+        \draw (8)--(5);
+        \node at (2.5, -0.3, 2) {(\textit{decider} $<$ \textit{c})};
+    \end{tikzpicture}
+    \begin{tikzpicture}[thick,scale=0.3, every node/.style={scale=0.8}]
+        \coordinate (1) at (0,0);
+        \coordinate (2) at (4,0);
+        \coordinate (3) at (4,4);
+        \coordinate (4) at (0,4);
+        \fill (1) circle (1pt) node [left] {$+$};
+        \fill (2) circle (1pt) node [right] {$-$};
+        \fill (3) circle (1pt) node [above] {$+$};
+        \fill (4) circle (1pt) node [above] {$-$};
+        \coordinate (5) at ($(1)!.4!(2)$);
+        % \fill (5) circle (1pt) node [below] {$\alpha_0$};
+        \coordinate (6) at ($(2)!.4!(3)$);
+        % \fill (6) circle (1pt) node [right] {$\beta_0$};
+
+        \coordinate (7) at ($(3)!.6!(4)$);
+
+        \coordinate (8) at ($(1)!.4!(4)$);
+        \coordinate (9) at ($(1)!.4!(3)$);
+        \fill ($(1)!.4!(3)$) circle (3pt) node [above right] {$f$};
+
+        \draw (1)--(2)--(3)--(4)-- cycle;
+        % \draw (5)--(7);
+        \draw (5)--(6);
+        \draw (7)--(8);
+        \node at (2.5, -0.3, 2) {(\textit{decider} $>=$ \textit{c})};
+    \end{tikzpicture}
+\end{center}
