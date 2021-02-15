@@ -30,8 +30,8 @@ We are calculating the accumulated color until $C(s')$, with the absorption coef
 
 \begin{align*}
     C_{in} &= (0,0,0), \alpha_{in} = 0                         \\
-    C_{out} &= C_{in} + (a - \alpha_{in}) \cdot \alpha \cdot C \\
-    \alpha_{out} &= \alpha_{in} + (a - \alpha_{in}) \cdot \alpha    \\
+    C_{out} &= C_{in} + (1 - \alpha_{in}) \cdot \alpha \cdot C \\
+    \alpha_{out} &= \alpha_{in} + (1 - \alpha_{in}) \cdot \alpha    \\
 \end{align*}
 
 \input{3_VolumeVisualization/Eye.command.tex}
